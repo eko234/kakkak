@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
-	"log"
 	"context"
 	"fmt"
+	"log"
 	"os"
 
 	"google.golang.org/genai"
@@ -22,12 +22,6 @@ func main() {
 	})
 
 	paniferr(err)
-
-	rawMessageCap := os.Getenv("MESSAGE_CAP")
-
-	if rawMessageCap == "" {
-		rawMessageCap = "50"
-	}
 
 	model := "gemini-2.0-flash"
 	content := []*genai.Content{}
@@ -52,17 +46,22 @@ func main() {
 		content = append(content, &genai.Content{Parts: []*genai.Part{
 			{Text: s.Text()},
 		}, Role: USER})
-		r, err := client.Models.GenerateContent(ctx, model, content, nil)
-		paniferr(err)
-		result := r.Candidates[0].Content.Parts[0].Text
+
+		var result string
+
+  	rs := client.Models.GenerateContentStream(ctx, model, content, nil)
+
+  	rs(func(gr *genai.GenerateContentResponse, err error) bool {
+    	buffpart := gr.Candidates[0].Content.Parts[0].Text
+  		outputFile.WriteString(fmt.Sprintf("%s", buffpart))
+    	result += buffpart
+  		return err != nil
+  	})
 
 		content = append(content, &genai.Content{Parts: []*genai.Part{
 			{Text: result},
 		}, Role: MODEL})
-
-		outputFile.WriteString(fmt.Sprintf("%s", result))
 	}
-
 }
 
 func paniferr(err error) {
