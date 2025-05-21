@@ -15,11 +15,6 @@ const MODEL = "model"
 
 func main() {
 	ctx := context.Background()
-	apikey := os.Getenv("GEMINI_API_KEY")
-
-	println("KEY::::::::::::::::::::::::::::::::::")
-	println(apikey)
-	println(":::::::::::::::::::::::::::::::::::::")
 
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
 		APIKey:  os.Getenv("GEMINI_API_KEY"),
@@ -68,82 +63,6 @@ func main() {
 		outputFile.WriteString(fmt.Sprintf("%s", result))
 	}
 
-	// BUFFERING:
-	// 	for {
-	// 		resp, err := stream.Recv()
-	// 		if err != nil {
-	// 			if err == io.EOF {
-	// 				outputFile.WriteString("\n")
-	// 				break BUFFERING
-	// 			}
-	// 			msg := fmt.Sprintf("ChatCompletion error: %v", err)
-	// 			if debug {
-	// 				outputFile.WriteString(msg)
-	// 				outputFile.WriteString("\n")
-	// 			}
-	// 			fmt.Printf("%s\n", msg)
-	// 		}
-	// 		outputFile.WriteString(fmt.Sprintf("%s", resp.Choices[0].Delta.Content))
-	// 		msg.Content = msg.Content + resp.Choices[0].Delta.Content
-	// 	}
-
-	// 	req.Messages = append(req.Messages, msg)
-
-	// 	ran := len(req.Messages) - messageCap
-	// 	if ran < 0 {
-	// 		ran = 0
-	// 	}
-
-	// 	req.Messages = req.Messages[ran:]
-	// }
-
-	// s := bufio.NewScanner(inputFile)
-	// for s.Scan() {
-	// 	req.Messages = append(req.Messages, openai.ChatCompletionMessage{
-	// 		Role:    openai.ChatMessageRoleUser,
-	// 		Content: s.Text(),
-	// 	})
-	// 	stream, err := client.CreateChatCompletionStream(context.Background(), req)
-	// 	if err != nil {
-	// 		msg := fmt.Sprintf("ChatCompletion error: %v", err)
-	// 		if debug {
-	// 			outputFile.WriteString(msg)
-	// 			outputFile.WriteString("\n")
-	// 		}
-	// 		fmt.Printf("%s\n", msg)
-	// 		continue
-	// 	}
-
-	// 	msg := openai.ChatCompletionMessage{Role: openai.ChatMessageRoleAssistant}
-
-	// BUFFERING:
-	// 	for {
-	// 		resp, err := stream.Recv()
-	// 		if err != nil {
-	// 			if err == io.EOF {
-	// 				outputFile.WriteString("\n")
-	// 				break BUFFERING
-	// 			}
-	// 			msg := fmt.Sprintf("ChatCompletion error: %v", err)
-	// 			if debug {
-	// 				outputFile.WriteString(msg)
-	// 				outputFile.WriteString("\n")
-	// 			}
-	// 			fmt.Printf("%s\n", msg)
-	// 		}
-	// 		outputFile.WriteString(fmt.Sprintf("%s", resp.Choices[0].Delta.Content))
-	// 		msg.Content = msg.Content + resp.Choices[0].Delta.Content
-	// 	}
-
-	// 	req.Messages = append(req.Messages, msg)
-
-	// 	ran := len(req.Messages) - messageCap
-	// 	if ran < 0 {
-	// 		ran = 0
-	// 	}
-
-	// 	req.Messages = req.Messages[ran:]
-	// }
 }
 
 func paniferr(err error) {
