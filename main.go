@@ -55,7 +55,7 @@ func main() {
     	buffpart := gr.Candidates[0].Content.Parts[0].Text
   		outputFile.WriteString(fmt.Sprintf("%s", buffpart))
     	result += buffpart
-  		return err != nil
+  		return err == nil
   	})
 
 		content = append(content, &genai.Content{Parts: []*genai.Part{
